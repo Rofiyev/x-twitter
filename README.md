@@ -8,4 +8,4 @@
 
 ## 🚀 Demo
 
-[https://ro1yev-twitter.vercel.app/](https://ro1yev-twitter.vercel.app/)
+[https://x-twitter-app.vercel.app/]("https://x-twitter-app.vercel.app/)
