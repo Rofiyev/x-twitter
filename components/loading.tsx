@@ -19,6 +19,7 @@ const Loading = () => {
           src="/images/x-logo.png"
           alt="image"
           loading="lazy"
+          className="animate-pulseImage"
         />
       </div>
     </>

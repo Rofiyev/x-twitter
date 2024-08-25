@@ -7,7 +7,17 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        pulseImage: {
+          "0%, 100%": { transform: "scale(.7)" },
+          "50%": { transform: "scale(1)" },
+        },
+      },
+      animation: {
+        pulseImage: "pulseImage 2s ease-in-out infinite",
+      },
+    },
     screens: {
       sm: "640px",
       md: "768px",
