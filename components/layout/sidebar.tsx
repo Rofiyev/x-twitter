@@ -1,7 +1,7 @@
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { signOut } from "next-auth/react";
 import { BiLogOut } from "react-icons/bi";
-import { BsBellFill, BsHouseFill } from "react-icons/bs";
+import { BsBellFill, BsHouseFill, BsSearch } from "react-icons/bs";
 import { FaUser } from "react-icons/fa6";
 import SidebarLogo from "./sidebar-logo";
 import SidebarItem from "./sidebar-item";
@@ -12,18 +12,17 @@ const Sidebar = () => {
 
   const sidebarItems = [
     { label: "Home", href: "/", icon: BsHouseFill },
+    { label: "Search", href: "/search", icon: BsSearch },
     {
       label: "Notifications",
       href: "/notifications",
       icon: BsBellFill,
-      auth: true,
       alert: currentUser?.hasNotification,
     },
     {
       label: "Profile",
       href: `/users/${currentUser?.id}`,
       icon: FaUser,
-      auth: true,
     },
   ];
 
@@ -38,7 +37,6 @@ const Sidebar = () => {
               href={item.href}
               label={item.label}
               icon={item.icon}
-              auth={item.auth}
               alert={item.alert}
             />
           ))}

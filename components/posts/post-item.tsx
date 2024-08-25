@@ -7,6 +7,7 @@ import { useLoginModal } from "@/hooks/useLoginModal";
 import useLike from "@/hooks/useLike";
 import { formatDistanceToNowStrict } from "date-fns";
 import Avatar from "../avatar";
+import Dropdown from "../dropdown";
 
 interface Props {
   userId?: string;
@@ -24,7 +25,6 @@ const PostItem: FC<Props> = ({ data, userId }) => {
   const goToUser = useCallback(
     (event: any) => {
       event.stopPropagation();
-
       router.push(`/users/${data.user.id}`);
     },
     [data.user.id, router]
@@ -58,22 +58,27 @@ const PostItem: FC<Props> = ({ data, userId }) => {
       className="border-b-[1px] border-neutral-800 p-2 md:p-5 cursor-pointer hover:bg-neutral-900 transition"
     >
       <div className="flex flex-row items-start gap-3">
-        <Avatar userId={data?.user.id} />
-        <div>
-          <div className="flex flex-row items-center gap-2">
-            <p
-              onClick={goToUser}
-              className="text-white font-semibold cursor-pointer hover:underline"
-            >
-              {data?.user?.name}
-            </p>
-            <span
-              onClick={goToUser}
-              className="text-neutral-500 cursor-pointer hover:underline hidden md:block"
-            >
-              @{data?.user.username}
-            </span>
-            <span className="text-neutral-500 text-sm">{createdAt}</span>
+        <div className="">
+          <Avatar userId={data?.user.id} />
+        </div>
+        <div className="w-full">
+          <div className="flex flex-row items-center justify-between gap-2">
+            <div className="flex justify-between gap-2 items-center">
+              <p
+                onClick={goToUser}
+                className="text-white font-semibold cursor-pointer hover:underline"
+              >
+                {data?.user?.name}
+              </p>
+              <span
+                onClick={goToUser}
+                className="text-neutral-500 cursor-pointer hover:underline hidden md:block"
+              >
+                @{data?.user.username}
+              </span>
+              <span className="text-neutral-500 text-sm">{createdAt}</span>
+            </div>
+            {currentUser?.id === data.userId && <Dropdown postId={data.id} />}
           </div>
           <p className="text-white mt-1">{data?.body}</p>
           <div className="flex flex-row items-center mt-3 gap-10">

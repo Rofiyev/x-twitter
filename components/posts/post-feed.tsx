@@ -7,8 +7,8 @@ interface Props {
 }
 
 const PostFeed: FC<Props> = ({ userId }) => {
-  const { data: posts = [] } = usePosts(userId);
-
+  const { data: posts = [], error } = usePosts(userId);
+  
   return (
     <>
       {posts.map((post: Record<string, any>) => (

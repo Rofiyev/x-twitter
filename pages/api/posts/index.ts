@@ -28,10 +28,8 @@ export default async function hadler(
     if (req.method === "GET") {
       const { userId } = req.query;
 
-      let posts;
-
       if (userId && typeof userId === "string") {
-        posts = await prisma.post.findMany({
+        const posts = await prisma.post.findMany({
           where: {
             userId,
           },
@@ -43,17 +41,18 @@ export default async function hadler(
             createdAt: "desc",
           },
         });
-      } else {
-        posts = await prisma.post.findMany({
-          include: {
-            user: true,
-            comment: true,
-          },
-          orderBy: {
-            createdAt: "desc",
-          },
-        });
+        return res.status(200).json(posts);
       }
+
+      const posts = await prisma.post.findMany({
+        include: {
+          user: true,
+          comment: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
 
       return res.status(200).json(posts);
     }

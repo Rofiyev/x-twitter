@@ -41,6 +41,7 @@ export const authOptions: NextAuthOptions = {
   ],
   pages: {
     signIn: "/authentication",
+    error: "/authentication",
   },
   callbacks: {},
   debug: process.env.NODE_ENV === "development",
