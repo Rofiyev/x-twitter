@@ -5,7 +5,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "GET" && req.method !== "DELETE")
+  if (req.method !== "GET" && req.method !== "DELETE" && req.method !== "PATCH")
     return res.status(405).end();
 
   try {
@@ -38,6 +38,22 @@ export default async function handler(
       const post = await prisma.post.delete({
         where: {
           id: postId,
+        },
+      });
+
+      return res.status(200).json(post);
+    }
+
+    if (req.method === "PATCH") {
+      const { body } = req.body;
+      console.log(body); 
+
+      const post = await prisma.post.update({
+        where: {
+          id: postId,
+        },
+        data: {
+          body,
         },
       });
 

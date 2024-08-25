@@ -1,9 +1,10 @@
+import { FC, useCallback } from "react";
+import axios from "axios";
 import usePosts from "@/hooks/usePosts";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import axios from "axios";
-import { FC, useCallback } from "react";
 import toast from "react-hot-toast";
 import { CiMenuKebab } from "react-icons/ci";
+import { usePostEditModal } from "@/hooks/usePostEditModal";
 
 interface Props {
   postId: string;
@@ -11,14 +12,21 @@ interface Props {
 
 const Dropdown: FC<Props> = ({ postId }) => {
   const { mutate: fetchPosts } = usePosts();
+  const postEditModal = usePostEditModal();
 
   const handleMenu = useCallback((e: any) => {
     e.stopPropagation();
   }, []);
 
-  const handleEdit = (e: any) => {
-    e.stopPropagation();
-  };
+  const handleEdit = useCallback(
+    (e: any) => {
+      e.stopPropagation();
+
+      postEditModal.onOpen();
+      postEditModal.setPostId(postId);
+    },
+    [postEditModal, postId]
+  );
 
   const handleDelete = useCallback(
     async (e: any) => {

@@ -6,19 +6,22 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Button from "./button";
 import Avatar from "./avatar";
+import { usePostModal } from "@/hooks/usePostModal";
 
 interface Props {
   placeholder: string;
   isComment?: boolean;
   postId?: string;
+  value?: string;
 }
 
-const Form: FC<Props> = ({ placeholder, isComment, postId }) => {
+const Form: FC<Props> = ({ placeholder, isComment, postId, value }) => {
   const { data: currentUser } = useCurrentUser();
   const { mutate: mutatePosts } = usePosts(postId as string);
   const { mutate: mutatePost } = usePost(postId as string);
+  const postModal = usePostModal();
 
-  const [body, setBody] = useState<string>("");
+  const [body, setBody] = useState<string>(value ? value : "");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onSubmit = useCallback(async () => {
@@ -37,6 +40,7 @@ const Form: FC<Props> = ({ placeholder, isComment, postId }) => {
             : "Post Created Successfully!"
         );
 
+        postModal.onClose();
         setBody("");
         mutatePosts();
         mutatePost();
@@ -46,7 +50,7 @@ const Form: FC<Props> = ({ placeholder, isComment, postId }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [body, mutatePosts, mutatePost, isComment, postId]);
+  }, [body, mutatePosts, mutatePost, isComment, postId, postModal]);
 
   return (
     <div className="border-b-[1px] border-neutral-800 px-5 py-2">
@@ -62,7 +66,7 @@ const Form: FC<Props> = ({ placeholder, isComment, postId }) => {
               setBody(e.target.value)
             }
             value={body}
-            className="disabled:opacity-80 peer resize-none mt-3 w-full bg-black ring-0 outline-none text-[20px] placeholder-neutral-500 text-white"
+            className="disabled:opacity-80 peer resize-y mt-3 w-full bg-black ring-0 outline-none text-[20px] placeholder-neutral-500 text-white"
           />
           <hr className="opacity-0 peer-focus:opacity-100 h-[1px] w-full border-neutral-800 transition" />
           <div className="mt-4 flex flex-row justify-end">

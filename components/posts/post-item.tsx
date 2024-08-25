@@ -52,6 +52,12 @@ const PostItem: FC<Props> = ({ data, userId }) => {
 
   const LikeIcon: IconType = hasLike ? AiFillHeart : AiOutlineHeart;
 
+  const isEdit = useMemo(() => {
+    return (
+      currentUser?.id === data.userId && !router.pathname.includes("/posts/")
+    );
+  }, [currentUser.id, data.userId, router]);
+
   return (
     <div
       onClick={goToPost}
@@ -78,7 +84,7 @@ const PostItem: FC<Props> = ({ data, userId }) => {
               </span>
               <span className="text-neutral-500 text-sm">{createdAt}</span>
             </div>
-            {currentUser?.id === data.userId && <Dropdown postId={data.id} />}
+            {isEdit && <Dropdown postId={data.id} />}
           </div>
           <p className="text-white mt-1">{data?.body}</p>
           <div className="flex flex-row items-center mt-3 gap-10">
