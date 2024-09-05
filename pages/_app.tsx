@@ -15,7 +15,7 @@ export default function App({
   const router = useRouter();
   const { data: currentUser, isLoading } = useCurrentUser();
 
-  if (isLoading || !currentUser) return <Loading />;
+  if (isLoading) return <Loading />;
 
   return (
     <>
