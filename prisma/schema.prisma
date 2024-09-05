@@ -25,10 +25,6 @@ model User {
   posts           Post[]
   comments        Comment[]
   notifications   Notification[]
-
-  // TEST
-  accounts Account[]
-  sessions Session[]
 }
 
 model Post {
@@ -59,39 +55,4 @@ model Notification {
   userId    String   @db.ObjectId
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-//  TEST
-
-model Account {
-  id                String  @id @default(uuid()) @map("_id")
-  userId            String  @db.ObjectId
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-  user              User    @relation(fields: [userId], references: [id])
-}
-
-model Session {
-  id           String   @id @default(uuid()) @map("_id")
-  sessionToken String   @unique
-  userId       String   @db.ObjectId
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id])
-}
-
-model VerificationToken {
-  id         String   @id @default(uuid()) @map("_id")
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
 }
