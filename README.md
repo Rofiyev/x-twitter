@@ -1,4 +1,4 @@
-# X - Social Media
+# X - Social Media | @rof1yev
 
 ![Twitter-Auth](./public/images/twitter-clone-auth.png)
 
