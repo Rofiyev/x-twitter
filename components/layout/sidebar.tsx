@@ -43,7 +43,10 @@ const Sidebar = () => {
 
           {currentUser && (
             <SidebarItem
-              onClick={() => signOut()}
+              onClick={() => {
+                signOut();
+                sessionStorage.clear();
+              }}
               icon={BiLogOut}
               label="Logout"
             />

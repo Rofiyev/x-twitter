@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import serverAuth from "@/libs/serverAuth";
-import { authOptions } from "./auth/[...nextauth]";
+import { authOptions } from "@/libs/authOptions";
 
 export default async function hadler(
   req: NextApiRequest,

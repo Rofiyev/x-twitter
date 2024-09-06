@@ -56,7 +56,7 @@ const PostItem: FC<Props> = ({ data, userId }) => {
     return (
       currentUser?.id === data.userId && !router.pathname.includes("/posts/")
     );
-  }, [currentUser.id, data.userId, router]);
+  }, [currentUser, data.userId, router]);
 
   return (
     <div
