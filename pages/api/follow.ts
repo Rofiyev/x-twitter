@@ -33,7 +33,7 @@ export default async function hadler(
         await prisma.notification.create({
           data: {
             body: `@${currentUser.username} | ${currentUser.name} followed you!`,
-            userId: currentUser.id,
+            userId: userId,
           },
         });
 
@@ -58,7 +58,7 @@ export default async function hadler(
 
     const updatedUser = await prisma.user.update({
       where: {
-        id: userId,
+        id: currentUser.id,
       },
       data: {
         followingIds: updatedFollowingIds,
