@@ -6,6 +6,7 @@ import { FaUser } from "react-icons/fa6";
 import SidebarLogo from "./sidebar-logo";
 import SidebarItem from "./sidebar-item";
 import SidebarTweetButton from "./sidebar-tweet-button";
+import SidebarCurrentUserSettings from "./sidebar-current-user-settings";
 
 const Sidebar = () => {
   const { data: currentUser } = useCurrentUser();
@@ -27,32 +28,35 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="col-span-1 h-full pr-0 md:pr-6">
-      <div className="flex flex-col items-center md:items-end">
-        <div className="space-y-2 lg:w-[230px]">
-          <SidebarLogo />
-          {sidebarItems.map((item) => (
-            <SidebarItem
-              key={item.href}
-              href={item.href}
-              label={item.label}
-              icon={item.icon}
-              alert={item.alert}
-            />
-          ))}
+    <div className="col-span-1 pr-0 md:pr-6">
+      <div className=" h-full flex flex-col items-center md:items-end">
+        <div className="space-y-2 lg:w-[250px] !flex flex-col justify-between h-full pb-2">
+          <div className="flex lg:block flex-col items-center">
+            <SidebarLogo />
+            {sidebarItems.map((item) => (
+              <SidebarItem
+                key={item.href}
+                href={item.href}
+                label={item.label}
+                icon={item.icon}
+                alert={item.alert}
+              />
+            ))}
 
-          {currentUser && (
-            <SidebarItem
-              onClick={() => {
-                signOut();
-                sessionStorage.clear();
-              }}
-              icon={BiLogOut}
-              label="Logout"
-            />
-          )}
+            {currentUser && (
+              <SidebarItem
+                onClick={() => {
+                  signOut();
+                  sessionStorage.clear();
+                }}
+                icon={BiLogOut}
+                label="Logout"
+              />
+            )}
 
-          <SidebarTweetButton />
+            <SidebarTweetButton />
+          </div>
+          <SidebarCurrentUserSettings />
         </div>
       </div>
     </div>

@@ -10,20 +10,22 @@ interface Props {
   userId: string;
   isLarge?: boolean;
   hasBorder?: boolean;
+  notClicked?: boolean;
 }
 
-const Avatar: FC<Props> = ({ userId, hasBorder, isLarge }) => {
+const Avatar: FC<Props> = ({ userId, hasBorder, isLarge, notClicked }) => {
   const router = useRouter();
   const { data: fetchedUser } = useUser(userId);
 
   const onClick = useCallback(
     (event: any) => {
       event.stopPropagation();
+      if (notClicked) return;
 
       const url = `/users/${userId}`;
       router.push(url);
     },
-    [router, userId]
+    [router, userId, notClicked]
   );
 
   return (

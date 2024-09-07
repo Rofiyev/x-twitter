@@ -6,6 +6,21 @@ import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import { Suspense } from "react";
 
+export default function Home() {
+  return (
+    <>
+      <Head>
+        <title>X - Home</title>
+      </Head>
+      <Header label="Home" />
+      <Form placeholder="What's happening!?" />
+      <Suspense fallback={<div className="text-white">Loading..</div>}>
+        <PostFeed />
+      </Suspense>
+    </>
+  );
+}
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
 
@@ -22,18 +37,3 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: { session },
   };
 };
-
-export default function Home() {
-  return (
-    <>
-      <Head>
-        <title>X - Home</title>
-      </Head>
-      <Header label="Home" />
-      <Form placeholder="What's happening!?" />
-      <Suspense fallback={<div className="text-white">Loading..</div>}>
-        <PostFeed />
-      </Suspense>
-    </>
-  );
-}

@@ -30,6 +30,7 @@ export default async function hadler(
         email,
         username,
         hashedPassword,
+        isPrivate: false,
       },
     });
 

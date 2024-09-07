@@ -4,23 +4,6 @@ import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context);
-
-  if (session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: { session },
-  };
-};
-
 const Authentication = () => {
   return (
     <>
@@ -57,3 +40,20 @@ const Authentication = () => {
 };
 
 export default Authentication;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+};

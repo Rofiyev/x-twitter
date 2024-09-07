@@ -58,7 +58,8 @@ export const authOptions: NextAuthOptions = {
           if (!user?.username) user.username = profile.email.split("@")[0];
           user.hashedPassword = null;
           user.profileImage = profile.image ?? "";
-          delete user.image;
+          user.isPrivate = false;
+          user.image = null;
           user.bio = "";
           user.coverImage = "";
           user.followingIds = [];

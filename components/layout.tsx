@@ -8,7 +8,7 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
       <div className="container h-full mx-auto px-0 xl:px-30 max-w-7xl">
         <div className="grid grid-cols-7 lg:grid-cols-4 h-full">
           <Sidebar />
-          <div className="col-span-6 lg:col-span-2 border-x-[1px] border-neutral-800">
+          <div className="col-span-6 lg:col-span-2 border-x-[1px] border-neutral-800 overflow-y-auto scrollbar-none">
             {children}
           </div>
           <FollowBar />

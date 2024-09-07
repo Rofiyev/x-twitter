@@ -18,10 +18,11 @@ model User {
   coverImage      String?
   profileImage    String?
   hashedPassword  String?
+  isPrivate       Boolean?       @default(false)
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
   followingIds    String[]       @db.ObjectId
-  hasNotification Boolean?
+  hasNotification Boolean?       @default(false)
   posts           Post[]
   comments        Comment[]
   notifications   Notification[]

@@ -26,6 +26,7 @@ export default async function hadler(
     }
 
     if (req.method === "GET") {
+      const { currentUser } = await serverAuth(req, res, authOptions);
       const { userId } = req.query;
 
       if (userId && typeof userId === "string") {
@@ -43,8 +44,28 @@ export default async function hadler(
         });
         return res.status(200).json(posts);
       }
+      const currentUserFollowings = await prisma.user.findMany({
+        where: {
+          id: currentUser.id,
+        },
+        select: {
+          followingIds: true,
+        },
+      });
+
+      const currentUserFollowingsIds = currentUserFollowings
+        .map((user) => user.followingIds)
+        .flat();
 
       const posts = await prisma.post.findMany({
+        where: {
+          OR: [
+            {
+              user: { isPrivate: false },
+            },
+            { userId: { in: currentUserFollowingsIds } },
+          ],
+        },
         include: {
           user: true,
           comment: true,

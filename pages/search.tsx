@@ -5,6 +5,18 @@ import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 
+export default function Home() {
+  return (
+    <>
+      <Head>
+        <title>X - Search</title>
+      </Head>
+      <Header label="Search" showBackArrow />
+      <SearchBar />
+      <SearchFeed />
+    </>
+  );
+}
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
@@ -22,16 +34,3 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: { session },
   };
 };
-
-export default function Home() {
-  return (
-    <>
-      <Head>
-        <title>X - Search</title>
-      </Head>
-      <Header label="Search" showBackArrow />
-      <SearchBar />
-      <SearchFeed />
-    </>
-  );
-}

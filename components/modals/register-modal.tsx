@@ -38,7 +38,10 @@ const RegisterModal = () => {
       try {
         setIsLoading(true);
 
-        await axios.post("/api/register", data);
+        await axios.post("/api/register", {
+          ...data,
+          username: data.username.toLowerCase(),
+        });
 
         await signIn("credentials", {
           email: data.email,

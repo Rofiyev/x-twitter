@@ -6,9 +6,7 @@ import { formatDistanceToNowStrict } from "date-fns";
 
 const NotificationsFeed = () => {
   const { data: currentUser, mutate: mutateCurrentUser } = useCurrentUser();
-  const { data: fetchedNotifications = [], isLoading } = useNotifications(
-    currentUser?.id
-  );
+  const { data: fetchedNotifications = [] } = useNotifications(currentUser?.id);
 
   useEffect(() => {
     mutateCurrentUser();
@@ -25,32 +23,28 @@ const NotificationsFeed = () => {
 
   return (
     <div className="flex flex-col">
-      {isLoading ? (
-        <div className="text-white">Loading...</div>
-      ) : (
-        <>
-          {fetchedNotifications.map((notification: Record<string, any>) => (
-            <div
-              key={notification.id}
-              className="flex flex-row items-center p-6 gap-4 border-b-[1px] border-neutral-800"
-            >
-              <Image
-                width={40}
-                height={40}
-                className="object-cover rounded-full"
-                src={"/images/x-logo.png"}
-                alt="Logo"
-              />
-              <div>
-                <span className="text-neutral-500">
-                  {createdAt(notification.createdAt)}
-                </span>
-                <p className="text-white">{notification.body}</p>
-              </div>
+      <>
+        {fetchedNotifications.map((notification: Record<string, any>) => (
+          <div
+            key={notification.id}
+            className="flex flex-row items-center p-6 gap-4 border-b-[1px] border-neutral-800"
+          >
+            <Image
+              width={40}
+              height={40}
+              className="object-cover rounded-full"
+              src={"/images/x-logo.png"}
+              alt="Logo"
+            />
+            <div>
+              <span className="text-neutral-500">
+                {createdAt(notification.createdAt)}
+              </span>
+              <p className="text-white">{notification.body}</p>
             </div>
-          ))}
-        </>
-      )}
+          </div>
+        ))}
+      </>
     </div>
   );
 };

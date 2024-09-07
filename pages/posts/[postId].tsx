@@ -6,6 +6,8 @@ import CommentFeed from "@/components/posts/comment-feed";
 import PostItem from "@/components/posts/post-item";
 import usePost from "@/hooks/usePost";
 import { ClipLoader } from "react-spinners";
+import { getSession } from "next-auth/react";
+import { GetServerSideProps } from "next";
 
 const PostView = () => {
   const router = useRouter();
@@ -38,3 +40,20 @@ const PostView = () => {
 };
 
 export default PostView;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/authentication",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+};

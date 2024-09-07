@@ -46,7 +46,6 @@ export default async function handler(
 
     if (req.method === "PATCH") {
       const { body } = req.body;
-      console.log(body); 
 
       const post = await prisma.post.update({
         where: {
