@@ -16,7 +16,7 @@ const UserBio: FC<Props> = ({ userId }) => {
   const { data: fetchedUser } = useUser(userId);
   const editModal = useEditModal();
 
-  const { isFollowing, toggleFollow } = useFollow(userId);
+  const { isFollowing, toggleFollow, isLoading } = useFollow(userId);
 
   const createdAt = useMemo(() => {
     if (!fetchedUser?.createdAt) return null;
@@ -30,6 +30,7 @@ const UserBio: FC<Props> = ({ userId }) => {
           <Button secondary label="Edit" onClick={editModal.onOpen} />
         ) : (
           <Button
+            disabled={isLoading}
             label={isFollowing ? "Unfollow" : "Follow"}
             onClick={toggleFollow}
             secondary={!isFollowing}

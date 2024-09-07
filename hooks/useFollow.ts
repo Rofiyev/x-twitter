@@ -8,6 +8,7 @@ import axios from "axios";
 const useFollow = (userId: string) => {
   const { data: currentUser, mutate: mutateCurrentUser } = useCurrentUser();
   const { mutate: mutateFetchedUser } = useUser(userId);
+  const [isLoading, setIsLaoding] = useState<boolean>(false);
 
   const loginModal = useLoginModal();
 
@@ -21,6 +22,7 @@ const useFollow = (userId: string) => {
     if (!currentUser) return loginModal.onOpen();
 
     try {
+      setIsLaoding(true);
       let request;
 
       if (isFollowing)
@@ -31,6 +33,7 @@ const useFollow = (userId: string) => {
       mutateCurrentUser();
       mutateFetchedUser();
 
+      setIsLaoding(false);
       toast.success(
         isFollowing ? "Unfollow Successfully!" : "Following Successfully"
       );
@@ -46,7 +49,7 @@ const useFollow = (userId: string) => {
     mutateFetchedUser,
   ]);
 
-  return { isFollowing, toggleFollow };
+  return { isFollowing, toggleFollow, isLoading };
 };
 
 export default useFollow;

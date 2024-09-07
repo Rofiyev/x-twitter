@@ -39,7 +39,7 @@ export default async function handler(
           await prisma.notification.create({
             data: {
               body: `@${currentUser.username} | ${currentUser.name} liked your post`,
-              userId: post.userId,
+              userId: currentUser.id,
             },
           });
           await prisma.user.update({

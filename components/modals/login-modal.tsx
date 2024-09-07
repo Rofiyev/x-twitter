@@ -43,8 +43,6 @@ const LoginModal = () => {
           redirect: false,
         });
 
-        console.log(response);
-
         if (response?.error)
           return toast.error("User information is incorrect!");
 
