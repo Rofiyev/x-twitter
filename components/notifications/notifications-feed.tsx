@@ -1,7 +1,7 @@
+import Image from "next/image";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import useNotifications from "@/hooks/useNotifications";
 import { useEffect } from "react";
-import Avatar from "../avatar";
 import { formatDistanceToNowStrict } from "date-fns";
 
 const NotificationsFeed = () => {
@@ -34,7 +34,13 @@ const NotificationsFeed = () => {
               key={notification.id}
               className="flex flex-row items-center p-6 gap-4 border-b-[1px] border-neutral-800"
             >
-              <Avatar userId={notification.userId} />
+              <Image
+                width={40}
+                height={40}
+                className="object-cover rounded-full"
+                src={"/images/x-logo.png"}
+                alt="Logo"
+              />
               <div>
                 <span className="text-neutral-500">
                   {createdAt(notification.createdAt)}
