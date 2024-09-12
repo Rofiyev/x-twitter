@@ -2,28 +2,20 @@ import { formatDistanceToNowStrict } from "date-fns";
 import { useRouter } from "next/router";
 import React, { FC, useCallback, useMemo } from "react";
 import Avatar from "../avatar";
+import Image from "next/image";
 
 interface Props {
   data: Record<string, any>;
 }
 
 const CommentItem: FC<Props> = ({ data }) => {
-  const router = useRouter();
-
-  const goToUser = useCallback(
-    (event: any) => {
-      event.stopPropagation();
-
-      router.push(`/users/${data?.user.id}`);
-    },
-    [data.user.id, router]
-  );
-
   const createdAt = useMemo(() => {
     if (!data.createdAt) return null;
 
     return formatDistanceToNowStrict(new Date(data.createdAt));
   }, [data.createdAt]);
+  
+  console.log(data);
 
   return (
     <div
@@ -42,7 +34,44 @@ const CommentItem: FC<Props> = ({ data }) => {
             </span>
             <span className="text-neutral-500 text-sm">{createdAt}</span>
           </div>
-          <div className="text-white mt-1">{data.body}</div>
+          <div className="text-white mt-1 whitespace-pre">{data.body}</div>
+          <div className="w-full flex flex-wrap mt-2 gap-3">
+            {Array.isArray(data.images) && (
+              <>
+                {data.images.map((item: string, i: number) => {
+                  const isGif = item.endsWith(".gif");
+
+                  return (
+                    <>
+                      {!isGif ? (
+                        <Image
+                          src={item}
+                          alt={`media-${i}`}
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="object-cover rounded-lg border-[1px] border-neutral-600"
+                          style={{ height: "auto", width: "100%" }}
+                        />
+                      ) : (
+                        <div
+                          key={i}
+                          className={`relative w-56 h-56 aspect-square rounded-lg`}
+                        >
+                          <Image
+                            src={item}
+                            alt={`media-${i}`}
+                            fill
+                            className="object-cover rounded-lg border-[1px] border-neutral-600"
+                          />
+                        </div>
+                      )}
+                    </>
+                  );
+                })}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

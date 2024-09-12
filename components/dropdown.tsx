@@ -57,7 +57,7 @@ const Dropdown: FC<Props> = ({ postId }) => {
       <MenuItems
         transition
         anchor="bottom end"
-        className="w-32 origin-top-right rounded-xl border border-white/5 bg-white/5 p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
+        className="w-32 origin-top-right rounded-xl border border-white/5 bg-neutral-800 p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
       >
         <MenuItem>
           <button

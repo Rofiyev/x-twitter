@@ -11,9 +11,16 @@ interface Props {
   isLarge?: boolean;
   hasBorder?: boolean;
   notClicked?: boolean;
+  isSmall?: boolean;
 }
 
-const Avatar: FC<Props> = ({ userId, hasBorder, isLarge, notClicked }) => {
+const Avatar: FC<Props> = ({
+  userId,
+  hasBorder,
+  isLarge,
+  notClicked,
+  isSmall,
+}) => {
   const router = useRouter();
   const { data: fetchedUser } = useUser(userId);
 
@@ -34,6 +41,8 @@ const Avatar: FC<Props> = ({ userId, hasBorder, isLarge, notClicked }) => {
       ${hasBorder && "border-4 border-black"}
       ${isLarge ? "h-32" : "h-12"}
       ${isLarge ? "w-32" : "w-12"}
+      ${isSmall && "h-8"}
+      ${isSmall && "w-8"}
       rounded-full hover:opacity-90 transition cursor-pointer relative
       `}
     >

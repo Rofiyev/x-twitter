@@ -11,7 +11,7 @@ export default async function handler(
 
   try {
     const { currentUser } = await serverAuth(req, res, authOptions);
-    const { body } = req.body;
+    const { body, images = [] } = req.body;
     const { postId } = req.query;
 
     if (!postId || typeof postId !== "string") throw new Error("Invalid ID");
@@ -21,6 +21,7 @@ export default async function handler(
         body,
         userId: currentUser.id,
         postId,
+        images: images.length ? [...images] : [],
       },
     });
 

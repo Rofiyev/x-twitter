@@ -7,8 +7,10 @@ import SidebarLogo from "./sidebar-logo";
 import SidebarItem from "./sidebar-item";
 import SidebarTweetButton from "./sidebar-tweet-button";
 import SidebarCurrentUserSettings from "./sidebar-current-user-settings";
+import { useRouter } from "next/navigation";
 
 const Sidebar = () => {
+  const router = useRouter();
   const { data: currentUser } = useCurrentUser();
 
   const sidebarItems = [
@@ -48,6 +50,7 @@ const Sidebar = () => {
                 onClick={() => {
                   signOut();
                   sessionStorage.clear();
+                  return router.refresh();
                 }}
                 icon={BiLogOut}
                 label="Logout"

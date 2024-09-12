@@ -10,8 +10,13 @@ import useCurrentUser from "@/hooks/useCurrentUser";
 import usePost from "@/hooks/usePost";
 import usePosts from "@/hooks/usePosts";
 import { usePostEditModal } from "@/hooks/usePostEditModal";
+import TextareaForm from "../textarea-form";
+import Image from "next/image";
+import { HiMiniXMark } from "react-icons/hi2";
+import { useRouter } from "next/navigation";
 
 const PostEditModal = () => {
+  const router = useRouter();
   const { data: currentUser } = useCurrentUser();
   const postEdit = usePostEditModal();
   const { data: post } = usePost(postEdit.postId);
@@ -19,8 +24,15 @@ const PostEditModal = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [body, setBody] = useState<string>("");
+  const [images, setImages] = useState<string[]>([]);
 
-  useEffect(() => post && setBody(post.body), [post]);
+  useEffect(() => {
+    if (post) {
+      setBody(post.body);
+      setImages(post.images);
+      console.log(post);
+    }
+  }, [post]);
 
   const handleClose = useCallback(() => {
     if (isLoading) return;
@@ -31,13 +43,22 @@ const PostEditModal = () => {
   const onSubmit = async () => {
     try {
       setIsLoading(true);
+      const patchData = {
+        body,
+        images,
+      };
 
-      await axios.patch(`/api/posts/${post.id}`, { body });
-      await mutatePosts();
+      await axios
+        .patch(`/api/posts/${post.id}`, { patchData })
+        .then(() => {
+          mutatePosts();
 
-      postEdit.onClose();
-      postEdit.removePostId();
-      return toast.success("Edited post successfully!");
+          postEdit.onClose();
+          postEdit.removePostId();
+
+          return toast.success("Edited post successfully!");
+        })
+        .catch(() => toast.error("Something went wrong!"));
     } catch (error) {
       toast.error("Something went wrong!");
     } finally {
@@ -67,18 +88,73 @@ const PostEditModal = () => {
                   <div>
                     <Avatar userId={currentUser?.id} />
                   </div>
-                  <div className="w-full">
-                    <textarea
+                  <div className="w-full flex flex-wrap gap-2">
+                    {images.map((item: string, i: number) => {
+                      const isGif = item.endsWith(".gif");
+
+                      return (
+                        <>
+                          {!isGif ? (
+                            <div className="relative">
+                              <Image
+                                key={i}
+                                src={item}
+                                alt={`media-${i}`}
+                                width={0}
+                                height={0}
+                                sizes="100vw"
+                                className="object-cover rounded-lg border-[1px] border-neutral-600"
+                                style={{ height: "auto", width: "100%" }}
+                              />
+                              <button
+                                onClick={() =>
+                                  setImages(
+                                    images.filter((c: string) => c !== item)
+                                  )
+                                }
+                                className="bg-neutral-600 absolute right-1 top-1 p-1 rounded-full"
+                              >
+                                <HiMiniXMark className="text-white" size={20} />
+                              </button>
+                            </div>
+                          ) : (
+                            <div
+                              key={i}
+                              className={`relative w-56 h-56 aspect-square rounded-lg`}
+                            >
+                              <Image
+                                src={item}
+                                alt={`media-${i}`}
+                                fill
+                                className="object-cover rounded-lg border-[1px] border-neutral-600"
+                              />
+                              <button
+                                onClick={() =>
+                                  setImages(
+                                    images.filter((c: string) => c !== item)
+                                  )
+                                }
+                                className="bg-neutral-600 absolute right-1 top-1 p-1 rounded-full"
+                              >
+                                <HiMiniXMark className="text-white" size={20} />
+                              </button>
+                            </div>
+                          )}
+                        </>
+                      );
+                    })}
+
+                    <TextareaForm
                       disabled={isLoading}
-                      placeholder={"What's happening!?"}
+                      placeholder={"What's happening?!"}
                       onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
                         setBody(e.target.value)
                       }
                       value={body}
-                      className="disabled:opacity-80 peer resize-y mt-3 w-full bg-black ring-0 outline-none text-[20px] placeholder-neutral-500 text-white"
                     />
                     <hr className="opacity-0 peer-focus:opacity-100 h-[1px] w-full border-neutral-800 transition" />
-                    <div className="mt-4 flex flex-row justify-end">
+
+                    <div className="mt-4 flex justify-end w-full">
                       <Button
                         label="Post"
                         disabled={isLoading || !body}

@@ -29,7 +29,7 @@ const Button: FC<Props> = ({
       ${secondary ? "text-black" : "text-white"}
       ${secondary ? "border-black" : "border-sky-500"}
       ${large ? "px-5" : "px-4"}
-      ${large ? "py-3" : "py-2"}
+      ${large ? "py-3" : "py-1"}
       ${outline ? "bg-transparent" : ""}
       ${outline ? "border-white" : ""}
       ${outline ? "text-white" : ""}

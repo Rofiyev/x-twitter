@@ -4,7 +4,6 @@ import Header from "@/components/header";
 import PostFeed from "@/components/posts/post-feed";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
-import { Suspense } from "react";
 
 export default function Home() {
   return (
@@ -14,9 +13,7 @@ export default function Home() {
       </Head>
       <Header label="Home" />
       <Form placeholder="What's happening!?" />
-      <Suspense fallback={<div className="text-white">Loading..</div>}>
-        <PostFeed />
-      </Suspense>
+      <PostFeed />
     </>
   );
 }

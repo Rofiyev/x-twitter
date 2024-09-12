@@ -13,12 +13,13 @@ export default async function hadler(
   try {
     if (req.method === "POST") {
       const { currentUser } = await serverAuth(req, res, authOptions);
-      const { body } = req.body;
+      const { body, images = [] } = req.body;
 
       const post = await prisma.post.create({
         data: {
           userId: currentUser.id,
           body,
+          images,
         },
       });
 
@@ -64,6 +65,9 @@ export default async function hadler(
               user: { isPrivate: false },
             },
             { userId: { in: currentUserFollowingsIds } },
+            {
+              userId: currentUser.id,
+            },
           ],
         },
         include: {

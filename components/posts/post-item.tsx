@@ -8,6 +8,7 @@ import useLike from "@/hooks/useLike";
 import { formatDistanceToNowStrict } from "date-fns";
 import Avatar from "../avatar";
 import Dropdown from "../dropdown";
+import Image from "next/image";
 
 interface Props {
   userId?: string;
@@ -61,11 +62,11 @@ const PostItem: FC<Props> = ({ data, userId }) => {
   return (
     <div
       onClick={goToPost}
-      className="border-b-[1px] border-neutral-800 p-2 md:p-5 cursor-pointer hover:bg-neutral-900 transition"
+      className="border-b-[1px] border-neutral-800 p-1 md:p-4 cursor-pointer hover:bg-neutral-950 transition"
     >
       <div className="flex flex-row items-start gap-3">
         <div className="">
-          <Avatar userId={data?.user.id} />
+          <Avatar userId={data?.user.id} isSmall />
         </div>
         <div className="w-full">
           <div className="flex flex-row items-center justify-between gap-2">
@@ -86,9 +87,45 @@ const PostItem: FC<Props> = ({ data, userId }) => {
             </div>
             {isEdit && <Dropdown postId={data.id} />}
           </div>
-          <p className="text-white mt-1">{data?.body}</p>
+          <p className="text-white mt-1 whitespace-pre">{data?.body}</p>
+          <div className="w-full flex flex-wrap mt-2 gap-3">
+            {Array.isArray(data.images) && (
+              <>
+                {data.images.map((item: string, i: number) => {
+                  const isGif = item.endsWith(".gif");
+
+                  return (
+                    <div key={i} className="relative">
+                      {!isGif ? (
+                        <Image
+                          src={item}
+                          alt={`media-${i}`}
+                          width={0}
+                          height={0}
+                          sizes="100vw"
+                          className="object-cover rounded-lg border-[1px] border-neutral-600"
+                          style={{ height: "auto", width: "100%" }}
+                        />
+                      ) : (
+                        <div
+                          className={`relative w-56 h-56 aspect-square rounded-lg`}
+                        >
+                          <Image
+                            src={item}
+                            alt={`media-${i}`}
+                            fill
+                            className="object-cover rounded-lg border-[1px] border-neutral-600"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </>
+            )}
+          </div>
           <div className="flex flex-row items-center mt-3 gap-10">
-            <div className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-sky-500">
+            <div className="flex flex-row items-center text-neutral-500 gap-2 cursor-pointer transition hover:text-sky-500 hover:drop-shadow-xl drop-shadow-lg">
               <AiOutlineMessage size={20} />
               <p className="mt-1">{data?.comment?.length || 0}</p>
             </div>

@@ -45,7 +45,7 @@ export default async function handler(
     }
 
     if (req.method === "PATCH") {
-      const { body } = req.body;
+      const { body, images = [] } = req.body;
 
       const post = await prisma.post.update({
         where: {
@@ -53,6 +53,7 @@ export default async function handler(
         },
         data: {
           body,
+          images,
         },
       });
 

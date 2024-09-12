@@ -15,9 +15,9 @@ const SidebarCurrentUserSettings = () => {
         <Menu>
           <MenuButton>
             <div className="text-white p-2 hover:bg-slate-300 hover:bg-opacity-10 transition rounded-full cursor-pointer">
-              <div className="flex gap-2 items-center px-1">
-                <div className="hidden md:block">
-                  <Avatar userId={currentUser.id} notClicked />
+              <div className="flex flex-col sm:flex-row gap-2 items-center px-1">
+                <div className="block">
+                  <Avatar userId={currentUser.id} notClicked isSmall />
                 </div>
                 <div className="hidden lg:flex flex-col gap-0 items-start flex-1">
                   <div className="flex gap-1 w-full">
@@ -36,8 +36,8 @@ const SidebarCurrentUserSettings = () => {
           </MenuButton>
           <MenuItems
             transition
-            anchor="bottom end"
-            className="w-56 origin-top-right rounded-xl shadow-md border border-white/5 bg-white/5 px-3 py-2 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
+            anchor="bottom start"
+            className="w-56 origin-top-right rounded-xl shadow-md border border-white/5 bg-neutral-800 px-3 py-2 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
           >
             <div className={`${isLoading && "opacity-80 cursor-not-allowed"}`}>
               <span className="w-full mb-2 text-neutral-400 block font-semibold">

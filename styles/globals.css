@@ -9,3 +9,10 @@
 body {
   @apply h-full bg-black;
 }
+
+.gpr-main {
+  position: absolute !important;
+  top: 0px !important;
+  left: 6rem;
+  z-index: 10000000 !important;
+}

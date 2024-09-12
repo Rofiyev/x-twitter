@@ -69,6 +69,27 @@ export const authOptions: NextAuthOptions = {
         }
       }
 
+      if (account?.provider === "github") {
+        const isExist = await prisma.user.findUnique({
+          where: {
+            email: profile.email,
+          },
+        });
+
+        if (!isExist) {
+          if (!user?.username) user.username = profile.email.split("@")[0];
+          user.hashedPassword = null;
+          user.profileImage = profile.avatar_url ?? "";
+          user.isPrivate = false;
+          user.image = null;
+          user.bio = profile.bio ?? "";
+          user.coverImage = "";
+          user.followingIds = [];
+          user.hasNotification = false;
+        } else {
+          return true;
+        }
+      }
       return true;
     },
   },
