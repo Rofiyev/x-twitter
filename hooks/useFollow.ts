@@ -30,15 +30,15 @@ const useFollow = (userId: string) => {
       else request = () => axios.post("/api/follow", { userId });
 
       await request();
-      mutateCurrentUser();
-      mutateFetchedUser();
+      await mutateCurrentUser();
+      await mutateFetchedUser();
 
       setIsLaoding(false);
-      toast.success(
+      return toast.success(
         isFollowing ? "Unfollow Successfully!" : "Following Successfully"
       );
     } catch (error) {
-      toast.error("Something went wrong!");
+      return toast.error("Something went wrong!");
     }
   }, [
     currentUser,

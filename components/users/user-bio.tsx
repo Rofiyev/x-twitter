@@ -23,6 +23,14 @@ const UserBio: FC<Props> = ({ userId }) => {
     return format(new Date(fetchedUser.createdAt), "MMMM yyyy");
   }, [fetchedUser]);
 
+  const followingCount = useMemo(() => {
+    return fetchedUser.followingIds.length;
+  }, [fetchedUser.followingIds]);
+
+  const followersCount = useMemo(() => {
+    return fetchedUser.followerIds.length;
+  }, [fetchedUser.followerIds]);
+
   return (
     <div className="border-b-[1px] border-neutral-800 pb-4">
       <div className="flex justify-end p-2">
@@ -54,11 +62,11 @@ const UserBio: FC<Props> = ({ userId }) => {
         </div>
         <div className="flex flex-row items-center mt-4 gap-6">
           <div className="flex flex-row items-center gap-1">
-            <p className="text-white">{fetchedUser?.followersCount || 0}</p>
+            <p className="text-white">{followersCount}</p>
             <p className="text-neutral-500">Followers</p>
           </div>
           <div className="flex flex-row items-center gap-1">
-            <p className="text-white">{fetchedUser?.followingIds?.length}</p>
+            <p className="text-white">{followingCount}</p>
             <p className="text-neutral-500">Following</p>
           </div>
         </div>

@@ -29,19 +29,14 @@ export default async function handler(
       updatedLikeIds.push(currentUser.id);
 
       try {
-        const post = await prisma.post.findUnique({
-          where: {
-            id: postId,
-          },
-        });
-
-        if (post?.userId && currentUser.id !== post.userId) {
+        if (post?.userId !== currentUser.id) {
           await prisma.notification.create({
             data: {
               body: `@${currentUser.username} | ${currentUser.name} liked your post`,
-              userId: currentUser.id,
+              userId: post.userId,
             },
           });
+
           await prisma.user.update({
             where: {
               id: post.userId,
@@ -52,9 +47,10 @@ export default async function handler(
           });
         }
       } catch (error) {
-        console.log(error);
+        return res.status(400).end();
       }
     }
+
     if (req.method === "DELETE")
       updatedLikeIds = updatedLikeIds.filter(
         (updateLikeId: string) => updateLikeId !== currentUser.id

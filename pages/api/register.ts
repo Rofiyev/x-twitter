@@ -31,6 +31,10 @@ export default async function hadler(
         username,
         hashedPassword,
         isPrivate: false,
+        bio: "",
+        coverImage: "",
+        profileImage: "",
+        followingIds: [],
       },
     });
 

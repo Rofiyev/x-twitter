@@ -16,15 +16,22 @@ export default async function handler(
         id: userId,
       },
     });
-    const followersCount = await prisma.user.count({
+    const followers = await prisma.user.findMany({
       where: {
         followingIds: {
           has: userId,
         },
       },
+      select: {
+        id: true,
+      },
     });
 
-    return res.status(200).json({ ...isExistUser, followersCount });
+    const followerIds = Array.from(
+      new Set(followers.map((follower) => follower.id))
+    );
+
+    return res.status(200).json({ ...isExistUser, followerIds });
   } catch (error) {
     return res.status(404).end();
   }

@@ -18,8 +18,6 @@ const UserView = () => {
   const { data: fetchUser, isLoading } = useUser(userId as string);
   const { isAllowed } = useView(userId as string);
 
-  console.log(isAllowed);
-
   if (isLoading || !fetchUser) {
     return (
       <div className="flex justify-center items-center h-full">

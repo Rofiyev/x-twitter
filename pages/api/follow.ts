@@ -24,6 +24,9 @@ export default async function hadler(
 
     if (!user) throw new Error("Invaid ID");
 
+    if (user.id === currentUser.id)
+      return res.status(400).json({ message: "You cannot follow yourself." });
+
     let updatedFollowingIds = [...(user.followingIds || [])];
 
     if (req.method === "POST") {

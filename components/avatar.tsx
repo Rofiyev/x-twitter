@@ -56,7 +56,7 @@ const Avatar: FC<Props> = ({
       />
       {fetchedUser?.username === process.env.NEXT_PUBLIC_ADMIN_KEY && (
         <MdVerified
-          size={isLarge ? 32 : 16}
+          size={isLarge ? 32 : isSmall ? 12 : 16}
           className={`absolute z-10 
             ${isLarge ? "bottom-1" : "bottom-0"}
             ${isLarge ? "right-1" : "right-0"}
@@ -65,7 +65,7 @@ const Avatar: FC<Props> = ({
       )}
       {fetchedUser?.username === process.env.NEXT_PUBLIC_SOCIAL_KEY && (
         <FaStar
-          size={isLarge ? 32 : 16}
+          size={isLarge ? 32 : isSmall ? 12 : 16}
           className={`absolute z-10 
             ${isLarge ? "bottom-1" : "bottom-0"}
             ${isLarge ? "right-1" : "right-0"}

@@ -23,5 +23,8 @@ export const registerSchema = z.object({
     .max(32, "Password must be at most 32 characters long!")
     .nonempty("Password is required"),
   name: z.string().nonempty("Full Name is required"),
-  username: z.string().nonempty("Username is required"),
+  username: z
+    .string()
+    .nonempty("Username is required")
+    .regex(/^\S*$/, "Username cannot contain spaces"),
 });
